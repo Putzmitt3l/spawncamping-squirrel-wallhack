@@ -9,7 +9,12 @@ var emitters = [new Emitter(new Vector(100,230), Vector.fromAngle(0,5)), new Emi
 
 var maxParticles = 100000; 
 var emissionRate = 4; //number of particles generated each rate
-var particleSize = 1;
+var particleSize = 2;
+
+var color = new Color();
+var contextColor = "rgb(255, 140, 0)";
+var changeColorFlagTimeOut = 30;
+var currentColorFlagTimeOut = 0;
 
 function loop(){
 	clear();
@@ -65,11 +70,16 @@ function update(){
 };
 
 function draw(){
-	// will be updated in the future to change dynamically and fluently
-	var colors = ["rgb(255, 140, 0)", "rgb(0, 255, 127)"]
+	currentColorFlagTimeOut++;
 
-	ctx.fillStyle = colors[1];
+	//check if it is time to change color;
+	if(currentColorFlagTimeOut == changeColorFlagTimeOut){
+		currentColorFlagTimeOut = 0;
+		color.changeColor(0.3, 0.3, 0.3, 0, 2, 4);
+		contextColor = color.produceColorString();
+	}
 
+	ctx.fillStyle = contextColor;
 	for(var i = 0; i < particles.length; i++){
 		var position = particles[i].position;
 
@@ -77,4 +87,5 @@ function draw(){
 	}
 };
 
+//initiating main loop
 loop();
