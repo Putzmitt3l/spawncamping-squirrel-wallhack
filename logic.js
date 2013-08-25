@@ -5,10 +5,11 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 var particles = [];
-var emitters = [new Emitter(new Vector(100,230), Vector.fromAngle(0,5)), new Emitter(new Vector(600,600), Vector.fromAngle(1.6,-5))];
+var emitters = [new Emitter(new Vector(100,230), Vector.fromAngle(0,5))]//, new Emitter(new Vector(600,600), Vector.fromAngle(1.6,-5))];
+var fields = [new Field(new Vector(500, 300), 500), new Field(new Vector(900, 200), 900)];
 
 var maxParticles = 100000; 
-var emissionRate = 4; //number of particles generated each rate
+var emissionRate = 4; //number of particles generated each frame
 var particleSize = 2;
 
 var color = new Color();
@@ -53,6 +54,9 @@ function plotParticles(boundsX, boundsY) {
 		if(pos.x < 0 || pos.y > boundsX || pos.y < 0 || pos.y > boundsY){
 			continue;
 		}
+
+		//update velocity and acceleration to account for fields
+		particle.submitToFields(fields);
 
 		particle.move();
 

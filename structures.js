@@ -41,6 +41,29 @@ Particle.prototype.move = function() {
 };
 
 /*
+	calculates the attraction/repellence of the particles to the fields
+	(expensive function)
+*/
+Particle.prototype.submitToFields = function(fields) {
+	var totalAccelerationX = 0;
+	var totalAccelerationY = 0;
+
+	for(var i = 0; i < fields.length; i++){
+
+		//finding distance between particle and field
+		var vectorX = fields[i].position.x - this.position.x;
+		var vectorY = fields[i].position.y - this.position.y;
+
+		var force = fields[i].mass / Math.pow(vectorX * vectorX + vectorY * vectorY, 1.5);
+
+		totalAccelerationX += vectorX * force;
+		totalAccelerationY += vectorY * force;
+
+		this.acceleration = new Vector(totalAccelerationX, totalAccelerationY);
+	}
+};
+
+/*
 	Starting central point that duplicates itself and
 	emmits other particles
 */
@@ -60,3 +83,17 @@ Emitter.prototype.emitParticle = function() {
 	return new Particle(position,velocity);
 };
 
+/*
+	Field structure - point(object) in space that attracts/repels particles.
+	If it's mass is positive it attracts, else if the mass is negative - repels.
+*/
+
+function Field(point, mass) {
+	this.position = point;
+	this.setMass(mass);
+}
+
+Field.prototype.setMass = function(mass) {
+	this.mass = mass || 100;
+	this.drawColor = (mass < 0) ? "#f00" : "#0f0";
+};
