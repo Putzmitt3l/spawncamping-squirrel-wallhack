@@ -5,12 +5,12 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 var particles = [];
-var emitters = [new Emitter(new Vector(100,230), Vector.fromAngle(0,5))]//, new Emitter(new Vector(600,600), Vector.fromAngle(1.6,-5))];
-var fields = [new Field(new Vector(500, 300), 500), new Field(new Vector(900, 200), 900)];
+var emitters = [new Emitter(new Vector(100,230), Vector.fromAngle(0,1))]//, new Emitter(new Vector(600,600), Vector.fromAngle(1.6,-5))];
+var fields = [new Field(new Vector(700, 230), -1000), new Field(new Vector(750, 200), 1500), new Field(new Vector(1250, 230), -1000), new Field(new Vector(1250, 400), 1500)];
 
 var maxParticles = 100000; 
-var emissionRate = 4; //number of particles generated each frame
-var particleSize = 2;
+var emissionRate = 10; //number of particles generated each frame
+var particleSize = 1;
 
 var color = new Color();
 var contextColor = "rgb(255, 140, 0)";
@@ -79,7 +79,7 @@ function draw(){
 	//check if it is time to change color;
 	if(currentColorFlagTimeOut == changeColorFlagTimeOut){
 		currentColorFlagTimeOut = 0;
-		color.changeColor(0.3, 0.3, 0.3, 0, 2, 4);
+		color.changeColor(0.1, 0.1, 0.1, 0, 2, 4);
 		contextColor = color.produceColorString();
 	}
 
